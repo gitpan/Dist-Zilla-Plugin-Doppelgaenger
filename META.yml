@@ -26,7 +26,7 @@ no_index:
 provides:
   Dist::Zilla::Plugin::Doppelgaenger:
     file: lib/Dist/Zilla/Plugin/Doppelgaenger.pm
-    version: 0.001
+    version: 0.002
 requires:
   Archive::Extract: 0
   Dist::Zilla::File::InMemory: 0
@@ -50,4 +50,4 @@ requires:
 resources:
   homepage: http://github.com/dagolden/dist-zilla-plugin-doppelgaenger/tree
   repository: git://github.com/dagolden/dist-zilla-plugin-doppelgaenger.git
-version: 0.001
+version: 0.002

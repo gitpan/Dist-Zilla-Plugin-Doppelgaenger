@@ -3,7 +3,7 @@ NAME
     distribution
 
 VERSION
-    version 0.001
+    version 0.002
 
 SYNOPSIS
       [Doppelgaenger]
@@ -41,6 +41,12 @@ ATTRIBUTES
   cpan_mirror
     This is a URI to a CPAN mirror. It must be an 'http' URI. Defaults to
     "http://cpan.dagolden.com/"
+
+  strip_version
+    Boolean for whether any assignments to $VERSION should be stripped out
+    of the source. This is a crude hack and acts by killing a line of code
+    containing such assignments. This obviously may not work in all cases
+    and should be used with caution. Default is false.
 
   strip_pod
     Boolean for whether Pod should be stripped when copying from source.

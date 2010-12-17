@@ -11,7 +11,7 @@ use strict;
 use warnings;
 package Dist::Zilla::Plugin::Doppelgaenger;
 BEGIN {
-  $Dist::Zilla::Plugin::Doppelgaenger::VERSION = '0.001';
+  $Dist::Zilla::Plugin::Doppelgaenger::VERSION = '0.002';
 }
 # ABSTRACT: Creates an evil twin of a CPAN distribution
 
@@ -69,6 +69,13 @@ has cpan_mirror => (
   isa   => Uri,
   coerce => 1,
   default => 'http://cpan.dagolden.com/'
+);
+
+
+has strip_version => (
+  is    => 'ro',
+  isa   => 'Bool',
+  default => 0,
 );
 
 
@@ -170,6 +177,7 @@ sub gather_files {
     my $dz_file = $self->_file_from_filename($filename, $file);
     $self->_munge_filename($dz_file);
     $self->_munge_file($dz_file);
+    $self->_strip_version($dz_file);
     $self->_strip_pod($dz_file);
     $self->add_file($dz_file);
   }
@@ -205,6 +213,19 @@ sub _munge_file {
   $file->content($content);
 }
 
+# match a line that appears to assign to a $VERSION variable
+# it's a bit more liberal on package names that Perl allows, oh, well
+my $version_re = qr/\$(?:(?i)[a-z0-9]+::){0,}VERSION\s*=\s*/;
+sub _strip_version {
+  my ($self, $file) = @_;
+  return unless $self->strip_version;
+  return unless
+    $file->name =~ m{\.pm\z} or $file->content =~ /\A#!.*?perl/;
+  $self->log_debug([ 'stripping VERSION from %s', $file->name ]);
+  my @lines = grep { $_ !~ $version_re } split "\n", $file->content;
+  $file->content( join("\n",@lines) . "\n" );
+}
+
 sub _strip_pod {
   my ($self, $file) = @_;
   return unless $self->strip_pod;
@@ -231,7 +252,7 @@ sub _munge_changes {
   my $delim  = $self->delim;
 
   $content =~ s{ (\Q$delim->[0]\E \s* \$NEXT \s* \Q$delim->[1]\E) }
-               {$1\n\n  - Generated from $distfile\n\n}xs;
+               {$1\n\n  - Generated from $distfile}xs;
 
   $file->content($content);
 }
@@ -296,7 +317,7 @@ Dist::Zilla::Plugin::Doppelgaenger - Creates an evil twin of a CPAN distribution
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
@@ -339,6 +360,13 @@ the converted form of the distribution name.
 
 This is a URI to a CPAN mirror.  It must be an 'http' URI.
 Defaults to C<http://cpan.dagolden.com/>
+
+=head2 strip_version
+
+Boolean for whether any assignments to C<$VERSION> should be stripped out of
+the source.  This is a crude hack and acts by killing a line of code containing
+such assignments.  This obviously may not work in all cases and should be used
+with caution.  Default is false.
 
 =head2 strip_pod
 

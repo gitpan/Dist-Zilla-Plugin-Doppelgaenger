@@ -1,5 +1,11 @@
 Revision history for Dist-Zilla-Plugin-Doppelgaenger
 
+0.002     2010-12-17 12:31:36 EST5EDT
+
+  - Added 'strip_version' option
+
+  - Fixed up line spacing of additions to Changes files
+
 0.001     2010-12-17 08:50:22 EST5EDT
 
   - First draft
