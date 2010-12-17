@@ -1,0 +1,15 @@
+Changes
+LICENSE
+MANIFEST
+META.json
+META.yml
+Makefile.PL
+README
+dist.ini
+lib/Dist/Zilla/Plugin/Doppelgaenger.pm
+perlcritic.rc
+t/00-compile.t
+xt/release/distmeta.t
+xt/release/pod-coverage.t
+xt/release/pod-syntax.t
+xt/release/portability.t

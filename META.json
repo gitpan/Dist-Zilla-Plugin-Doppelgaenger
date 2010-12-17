@@ -1,0 +1,81 @@
+{
+   "abstract" : "Creates an evil twin of a CPAN distribution",
+   "author" : [
+      "David Golden <dagolden@cpan.org>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 4.200001, CPAN::Meta::Converter version 2.102400",
+   "license" : [
+      "apache_2_0"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Dist-Zilla-Plugin-Doppelgaenger",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "xt",
+         "examples",
+         "corpus"
+      ],
+      "package" : [
+         "DB"
+      ]
+   },
+   "prereqs" : {
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "6.31"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Archive::Extract" : 0,
+            "Dist::Zilla::File::InMemory" : 0,
+            "Dist::Zilla::Role::AfterRelease" : 0,
+            "Dist::Zilla::Role::FileGatherer" : 0,
+            "Dist::Zilla::Role::FileMunger" : 0,
+            "Dist::Zilla::Role::TextTemplate" : 0,
+            "File::Find::Rule" : 0,
+            "File::pushd" : 0,
+            "HTTP::Tiny" : 0,
+            "JSON" : 0,
+            "Moose" : 0,
+            "Moose::Autobox" : 0,
+            "MooseX::Types::Path::Class" : 0,
+            "MooseX::Types::Perl" : 0,
+            "MooseX::Types::URI" : 0,
+            "Path::Class" : 0,
+            "Pod::Strip" : 0,
+            "namespace::autoclean" : 0,
+            "perl" : "5.006"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "File::Find" : 0,
+            "File::Temp" : 0,
+            "Test::More" : 0
+         }
+      }
+   },
+   "provides" : {
+      "Dist::Zilla::Plugin::Doppelgaenger" : {
+         "file" : "lib/Dist/Zilla/Plugin/Doppelgaenger.pm",
+         "version" : "0.001"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "homepage" : "http://github.com/dagolden/dist-zilla-plugin-doppelgaenger/tree",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/dagolden/dist-zilla-plugin-doppelgaenger.git",
+         "web" : "http://github.com/dagolden/dist-zilla-plugin-doppelgaenger/tree"
+      }
+   },
+   "version" : "0.001"
+}
+
