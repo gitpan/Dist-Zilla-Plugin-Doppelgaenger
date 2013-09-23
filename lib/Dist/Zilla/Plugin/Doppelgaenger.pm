@@ -3,7 +3,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Doppelgaenger;
 # ABSTRACT: Creates an evil twin of a CPAN distribution
-our $VERSION = '0.004'; # VERSION
+our $VERSION = '0.005'; # VERSION
 
 use Moose;
 use Moose::Autobox;
@@ -192,10 +192,16 @@ sub _munge_file {
     my $old_name = $self->source_module;
     my $new_name = $self->new_name;
 
+    ( my $old_pm = $old_name ) =~ s{::}{/}g;
+    $old_pm .= ".pm";
+    ( my $new_pm = $new_name ) =~ s{::}{/}g;
+    $new_pm .= ".pm";
+
     $self->log_debug( [ 'updating contents of %s', $file->name ] );
 
     my $content = $file->content;
     $content =~ s{$old_name}{$new_name}g;
+    $content =~ s{\Q$old_pm\E}{$new_pm}g;
     $file->content($content);
 }
 
@@ -312,7 +318,7 @@ Dist::Zilla::Plugin::Doppelgaenger - Creates an evil twin of a CPAN distribution
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 SYNOPSIS
 
