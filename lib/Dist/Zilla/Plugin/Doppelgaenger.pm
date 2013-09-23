@@ -3,7 +3,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Doppelgaenger;
 # ABSTRACT: Creates an evil twin of a CPAN distribution
-our $VERSION = '0.003'; # VERSION
+our $VERSION = '0.004'; # VERSION
 
 use Moose;
 use Moose::Autobox;
@@ -210,7 +210,11 @@ sub _strip_version {
       unless $file->name =~ m{\.pm\z}
       or $file->content =~ /\A#!.*?perl/;
     $self->log_debug( [ 'stripping VERSION from %s', $file->name ] );
-    my @lines = grep { $_ !~ $version_re } split "\n", $file->content;
+    # replace
+    my @lines =
+      map { /$version_re/ ? '; # original $VERSION removed by Doppelgaenger' : $_ }
+      split "\n",
+      $file->content;
     $file->content( join( "\n", @lines ) . "\n" );
 }
 
@@ -291,7 +295,6 @@ sub _file_from_filename {
 }
 
 __PACKAGE__->meta->make_immutable;
-no Moose;
 1;
 
 
@@ -309,7 +312,7 @@ Dist::Zilla::Plugin::Doppelgaenger - Creates an evil twin of a CPAN distribution
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 

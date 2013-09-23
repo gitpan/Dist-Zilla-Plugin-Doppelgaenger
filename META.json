@@ -79,7 +79,7 @@
    "provides" : {
       "Dist::Zilla::Plugin::Doppelgaenger" : {
          "file" : "lib/Dist/Zilla/Plugin/Doppelgaenger.pm",
-         "version" : "0.003"
+         "version" : "0.004"
       }
    },
    "release_status" : "stable",
@@ -94,7 +94,7 @@
          "web" : "https://github.com/dagolden/Dist-Zilla-Plugin-Doppelgaenger"
       }
    },
-   "version" : "0.003",
+   "version" : "0.004",
    "x_authority" : "cpan:DAGOLDEN"
 }
 
