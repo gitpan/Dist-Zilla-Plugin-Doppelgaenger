@@ -3,7 +3,7 @@ NAME
     distribution
 
 VERSION
-    version 0.002
+    version 0.003
 
 SYNOPSIS
       [Doppelgaenger]
@@ -40,7 +40,7 @@ ATTRIBUTES
 
   cpan_mirror
     This is a URI to a CPAN mirror. It must be an 'http' URI. Defaults to
-    "http://cpan.dagolden.com/"
+    "http://www.cpan.org/"
 
   strip_version
     Boolean for whether any assignments to $VERSION should be stripped out
@@ -58,6 +58,20 @@ ATTRIBUTES
   update_changes_file
     Boolean for whether change log should be updated with the source
     distribution when built. Default is true.
+
+SUPPORT
+  Bugs / Feature Requests
+    Please report any bugs or feature requests through the issue tracker at
+    <https://github.com/dagolden/Dist-Zilla-Plugin-Doppelgaenger/issues>.
+    You will be notified automatically of any progress on your issue.
+
+  Source Code
+    This is open source software. The code repository is available for
+    public review and contribution under the terms of the license.
+
+    <https://github.com/dagolden/Dist-Zilla-Plugin-Doppelgaenger>
+
+      git clone https://github.com/dagolden/Dist-Zilla-Plugin-Doppelgaenger.git
 
 AUTHOR
     David Golden <dagolden@cpan.org>

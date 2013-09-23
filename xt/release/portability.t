@@ -1,17 +1,12 @@
 #!perl
-#
-# This file is part of Dist-Zilla-Plugin-Doppelgaenger
-#
-# This software is Copyright (c) 2010 by David Golden.
-#
-# This is free software, licensed under:
-#
-#   The Apache License, Version 2.0, January 2004
-#
+
+use strict;
+use warnings;
 
 use Test::More;
 
-eval "use Test::Portability::Files";
-plan skip_all => "Test::Portability::Files required for testing portability"
-  if $@;
+eval 'use Test::Portability::Files';
+plan skip_all => 'Test::Portability::Files required for testing portability'
+    if $@;
+options(test_one_dot => 0);
 run_tests();

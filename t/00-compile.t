@@ -1,54 +1,49 @@
-#!perl
-#
-# This file is part of Dist-Zilla-Plugin-Doppelgaenger
-#
-# This software is Copyright (c) 2010 by David Golden.
-#
-# This is free software, licensed under:
-#
-#   The Apache License, Version 2.0, January 2004
-#
-
 use strict;
 use warnings;
 
-use Test::More;
-use File::Find;
-use File::Temp qw{ tempdir };
+# this test was generated with Dist::Zilla::Plugin::Test::Compile 2.033
 
-my @modules;
-find(
-  sub {
-    return if $File::Find::name !~ /\.pm\z/;
-    my $found = $File::Find::name;
-    $found =~ s{^lib/}{};
-    $found =~ s{[/\\]}{::}g;
-    $found =~ s/\.pm$//;
-    # nothing to skip
-    push @modules, $found;
-  },
-  'lib',
+use Test::More  tests => 1 + ($ENV{AUTHOR_TESTING} ? 1 : 0);
+
+
+
+my @module_files = (
+    'Dist/Zilla/Plugin/Doppelgaenger.pm'
 );
 
-my @scripts = glob "bin/*";
 
-my $plan = scalar(@modules) + scalar(@scripts);
-$plan ? (plan tests => $plan) : (plan skip_all => "no tests to run");
 
+# fake home for cpan-testers
+use File::Temp;
+local $ENV{HOME} = File::Temp::tempdir( CLEANUP => 1 );
+
+
+use File::Spec;
+use IPC::Open3;
+use IO::Handle;
+
+my @warnings;
+for my $lib (@module_files)
 {
-    # fake home for cpan-testers
-     local $ENV{HOME} = tempdir( CLEANUP => 1 );
+    # see L<perlfaq8/How can I capture STDERR from an external command?>
+    open my $stdin, '<', File::Spec->devnull or die "can't open devnull: $!";
+    my $stderr = IO::Handle->new;
 
-    like( qx{ $^X -Ilib -e "require $_; print '$_ ok'" }, qr/^\s*$_ ok/s, "$_ loaded ok" )
-        for sort @modules;
+    my $pid = open3($stdin, '>&STDERR', $stderr, $^X, '-Mblib', '-e', "require q[$lib]");
+    binmode $stderr, ':crlf' if $^O eq 'MSWin32';
+    my @_warnings = <$stderr>;
+    waitpid($pid, 0);
+    is($? >> 8, 0, "$lib loaded ok");
 
-    SKIP: {
-        eval "use Test::Script 1.05; 1;";
-        skip "Test::Script needed to test script compilation", scalar(@scripts) if $@;
-        foreach my $file ( @scripts ) {
-            my $script = $file;
-            $script =~ s!.*/!!;
-            script_compiles( $file, "$script script compiles" );
-        }
+    if (@_warnings)
+    {
+        warn @_warnings;
+        push @warnings, @_warnings;
     }
 }
+
+
+
+is(scalar(@warnings), 0, 'no warnings found') if $ENV{AUTHOR_TESTING};
+
+

@@ -3,13 +3,18 @@ abstract: 'Creates an evil twin of a CPAN distribution'
 author:
   - 'David Golden <dagolden@cpan.org>'
 build_requires:
-  File::Find: 0
+  ExtUtils::MakeMaker: 0
+  File::Spec: 0
+  File::Spec::Functions: 0
   File::Temp: 0
+  IO::Handle: 0
+  IPC::Open3: 0
+  List::Util: 0
   Test::More: 0
 configure_requires:
-  ExtUtils::MakeMaker: 6.31
+  ExtUtils::MakeMaker: 6.30
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.200001, CPAN::Meta::Converter version 2.102400'
+generated_by: 'Dist::Zilla version 4.300039, CPAN::Meta::Converter version 2.132660'
 license: apache
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -26,7 +31,7 @@ no_index:
 provides:
   Dist::Zilla::Plugin::Doppelgaenger:
     file: lib/Dist/Zilla/Plugin/Doppelgaenger.pm
-    version: 0.002
+    version: 0.003
 requires:
   Archive::Extract: 0
   Dist::Zilla::File::InMemory: 0
@@ -47,7 +52,11 @@ requires:
   Pod::Strip: 0
   namespace::autoclean: 0
   perl: 5.006
+  strict: 0
+  warnings: 0
 resources:
-  homepage: http://github.com/dagolden/dist-zilla-plugin-doppelgaenger/tree
-  repository: git://github.com/dagolden/dist-zilla-plugin-doppelgaenger.git
-version: 0.002
+  bugtracker: https://github.com/dagolden/Dist-Zilla-Plugin-Doppelgaenger/issues
+  homepage: https://github.com/dagolden/Dist-Zilla-Plugin-Doppelgaenger
+  repository: https://github.com/dagolden/Dist-Zilla-Plugin-Doppelgaenger.git
+version: 0.003
+x_authority: cpan:DAGOLDEN
