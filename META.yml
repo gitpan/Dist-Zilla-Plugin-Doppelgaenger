@@ -3,22 +3,19 @@ abstract: 'Creates an evil twin of a CPAN distribution'
 author:
   - 'David Golden <dagolden@cpan.org>'
 build_requires:
-  ExtUtils::MakeMaker: 0
-  File::Spec: 0
-  File::Spec::Functions: 0
-  File::Temp: 0
-  IO::Handle: 0
-  IPC::Open3: 0
-  List::Util: 0
-  Test::More: 0
+  ExtUtils::MakeMaker: '0'
+  File::Spec::Functions: '0'
+  List::Util: '0'
+  Test::More: '0'
+  version: '0'
 configure_requires:
-  ExtUtils::MakeMaker: 6.30
+  ExtUtils::MakeMaker: '6.17'
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.300039, CPAN::Meta::Converter version 2.132660'
+generated_by: 'Dist::Zilla version 5.012, CPAN::Meta::Converter version 2.133380'
 license: apache
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
-  version: 1.4
+  version: '1.4'
 name: Dist-Zilla-Plugin-Doppelgaenger
 no_index:
   directory:
@@ -31,32 +28,32 @@ no_index:
 provides:
   Dist::Zilla::Plugin::Doppelgaenger:
     file: lib/Dist/Zilla/Plugin/Doppelgaenger.pm
-    version: 0.005
+    version: '0.006'
 requires:
-  Archive::Extract: 0
-  Dist::Zilla::File::InMemory: 0
-  Dist::Zilla::Role::AfterRelease: 0
-  Dist::Zilla::Role::FileGatherer: 0
-  Dist::Zilla::Role::FileMunger: 0
-  Dist::Zilla::Role::TextTemplate: 0
-  File::Find::Rule: 0
-  File::pushd: 0
-  HTTP::Tiny: 0
-  JSON: 0
-  Moose: 0
-  Moose::Autobox: 0
-  MooseX::Types::Path::Class: 0
-  MooseX::Types::Perl: 0
-  MooseX::Types::URI: 0
-  Path::Class: 0
-  Pod::Strip: 0
-  namespace::autoclean: 0
-  perl: 5.006
-  strict: 0
-  warnings: 0
+  Archive::Extract: '0'
+  Dist::Zilla::File::InMemory: '5'
+  Dist::Zilla::Role::AfterRelease: '0'
+  Dist::Zilla::Role::FileGatherer: '0'
+  Dist::Zilla::Role::FileMunger: '0'
+  Dist::Zilla::Role::TextTemplate: '0'
+  File::Find::Rule: '0'
+  File::pushd: '0'
+  HTTP::Tiny: '0'
+  JSON: '0'
+  Moose: '0'
+  Moose::Autobox: '0'
+  MooseX::Types::Path::Class: '0'
+  MooseX::Types::Perl: '0'
+  MooseX::Types::URI: '0'
+  Path::Class: '0'
+  Pod::Strip: '0'
+  namespace::autoclean: '0'
+  perl: '5.006'
+  strict: '0'
+  warnings: '0'
 resources:
   bugtracker: https://github.com/dagolden/Dist-Zilla-Plugin-Doppelgaenger/issues
   homepage: https://github.com/dagolden/Dist-Zilla-Plugin-Doppelgaenger
   repository: https://github.com/dagolden/Dist-Zilla-Plugin-Doppelgaenger.git
-version: 0.005
+version: '0.006'
 x_authority: cpan:DAGOLDEN

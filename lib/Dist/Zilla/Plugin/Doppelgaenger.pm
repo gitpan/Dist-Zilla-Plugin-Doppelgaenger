@@ -3,7 +3,7 @@ use warnings;
 
 package Dist::Zilla::Plugin::Doppelgaenger;
 # ABSTRACT: Creates an evil twin of a CPAN distribution
-our $VERSION = '0.005'; # VERSION
+our $VERSION = '0.006'; # VERSION
 
 use Moose;
 use Moose::Autobox;
@@ -15,7 +15,7 @@ with 'Dist::Zilla::Role::TextTemplate';
 with 'Dist::Zilla::Role::FileMunger';   # for Changes
 with 'Dist::Zilla::Role::AfterRelease'; # for Changes
 
-use Dist::Zilla::File::InMemory;
+use Dist::Zilla::File::InMemory 5;      # encoded_content
 use File::Find::Rule;
 use File::pushd qw/tempd/;
 use Path::Class;
@@ -30,6 +30,11 @@ use namespace::autoclean;
 # public attributes
 #--------------------------------------------------------------------------#
 
+# =attr source_module (REQUIRED)
+#
+# The name of a CPAN module to imitate.  E.g. Foo::Bar
+#
+# =cut
 
 has source_module => (
     is       => 'ro',
@@ -37,6 +42,12 @@ has source_module => (
     required => 1,
 );
 
+# =attr new_name
+#
+# The new name to use in place of the source name.  Defaults to
+# the converted form of the distribution name.
+#
+# =cut
 
 has new_name => (
     is       => 'ro',
@@ -53,6 +64,12 @@ sub _build_new_name {
     return $name;
 }
 
+# =attr cpan_mirror
+#
+# This is a URI to a CPAN mirror.  It must be an 'http' URI.
+# Defaults to C<http://www.cpan.org/>
+#
+# =cut
 
 has cpan_mirror => (
     is      => 'ro',
@@ -61,6 +78,14 @@ has cpan_mirror => (
     default => 'http://www.cpan.org/'
 );
 
+# =attr strip_version
+#
+# Boolean for whether any assignments to C<$VERSION> should be stripped out of
+# the source.  This is a crude hack and acts by killing a line of code containing
+# such assignments.  This obviously may not work in all cases and should be used
+# with caution.  Default is false.
+#
+# =cut
 
 has strip_version => (
     is      => 'ro',
@@ -68,6 +93,13 @@ has strip_version => (
     default => 0,
 );
 
+# =attr strip_pod
+#
+# Boolean for whether Pod should be stripped when copying from source.
+# Default is false.
+#
+#
+# =cut
 
 has strip_pod => (
     is      => 'ro',
@@ -75,6 +107,11 @@ has strip_pod => (
     default => 0,
 );
 
+# =attr changes_file
+#
+# Name of change log file.  Defaults to 'Changes'.
+#
+# =cut
 
 has changes_file => (
     is      => 'ro',
@@ -82,6 +119,12 @@ has changes_file => (
     default => 'Changes',
 );
 
+# =attr update_changes_file
+#
+# Boolean for whether change log should be updated with the
+# source distribution when built. Default is true.
+#
+# =cut
 
 has update_changes_file => (
     is      => 'ro',
@@ -133,6 +176,12 @@ sub _build_short_distfile {
     return $distfile;
 }
 
+has _files_added => (
+    is      => 'ro',
+    isa     => 'HashRef',
+    default => sub { {} },
+);
+
 #--------------------------------------------------------------------------#
 # methods
 #--------------------------------------------------------------------------#
@@ -162,10 +211,8 @@ sub gather_files {
         $self->log_debug( [ 'selected %s', $filename ] );
         my $dz_file = $self->_file_from_filename( $filename, $file );
         $self->_munge_filename($dz_file);
-        $self->_munge_file($dz_file);
-        $self->_strip_version($dz_file);
-        $self->_strip_pod($dz_file);
         $self->add_file($dz_file);
+        $self->_files_added->{ $dz_file->name } = 1;
     }
 
     return;
@@ -239,6 +286,10 @@ sub _strip_pod {
 sub munge_file {
     my ( $self, $file ) = @_;
     $self->_munge_changes($file) if $file->name eq $self->changes_file;
+    return unless $self->_files_added->{ $file->name };
+    $self->_munge_file($file);
+    $self->_strip_version($file);
+    $self->_strip_pod($file);
 }
 
 sub _munge_changes {
@@ -290,11 +341,16 @@ sub _download {
 sub _file_from_filename {
     my ( $self, $filename, $rel_name ) = @_;
 
+    open my $fh, "<:unix", "$filename";
+    binmode $fh;
+    my $raw = do { local $/; <$fh> };
+    close $fh;
+
     my $file = Dist::Zilla::File::InMemory->new(
         {
             name => "$rel_name",
             mode => ( stat $filename )[2] & 0755, ## no critic: kill world-writeability
-            content => do { local ( @ARGV, $/ ) = "$filename"; <> },
+            encoded_content => $raw,
         }
     );
     return $file;
@@ -310,7 +366,7 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
@@ -318,7 +374,7 @@ Dist::Zilla::Plugin::Doppelgaenger - Creates an evil twin of a CPAN distribution
 
 =head1 VERSION
 
-version 0.005
+version 0.006
 
 =head1 SYNOPSIS
 
