@@ -3,7 +3,7 @@ NAME
     distribution
 
 VERSION
-    version 0.006
+    version 0.007
 
 SYNOPSIS
       [Doppelgaenger]
@@ -58,6 +58,16 @@ ATTRIBUTES
   update_changes_file
     Boolean for whether change log should be updated with the source
     distribution when built. Default is true.
+
+  exclude_filename
+    To exclude certain files from being gathered, use the "exclude_filename"
+    option. This may be used multiple times to specify multiple files to
+    exclude.
+
+  exclude_match
+    This is just like "exclude_filename" but provides a regular expression
+    pattern. Files matching the pattern are not gathered. This may be used
+    multiple times to specify multiple patterns to exclude.
 
 SUPPORT
   Bugs / Feature Requests

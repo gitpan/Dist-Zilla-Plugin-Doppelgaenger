@@ -28,7 +28,7 @@ no_index:
 provides:
   Dist::Zilla::Plugin::Doppelgaenger:
     file: lib/Dist/Zilla/Plugin/Doppelgaenger.pm
-    version: '0.006'
+    version: '0.007'
 requires:
   Archive::Extract: '0'
   Dist::Zilla::File::InMemory: '5'
@@ -55,5 +55,5 @@ resources:
   bugtracker: https://github.com/dagolden/Dist-Zilla-Plugin-Doppelgaenger/issues
   homepage: https://github.com/dagolden/Dist-Zilla-Plugin-Doppelgaenger
   repository: https://github.com/dagolden/Dist-Zilla-Plugin-Doppelgaenger.git
-version: '0.006'
+version: '0.007'
 x_authority: cpan:DAGOLDEN
